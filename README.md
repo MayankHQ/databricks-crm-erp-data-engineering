@@ -134,8 +134,40 @@ The Gold layer contains curated, business-ready datasets designed for analytics 
 
 Both **PySpark and Spark SQL** were used to implement Gold-layer transformations.
 
-       ▼
-   🥇 Gold
-       │
-       ▼
-Analytics & Reporting
+## ⚙️ Pipeline Orchestration
+
+The pipeline is orchestrated using **Databricks Jobs** with a layered orchestration approach.
+
+Separate orchestration notebooks were created for the Silver and Gold layers:
+
+- **Silver Orchestration** — Executes all Silver transformation notebooks in the required sequence.
+- **Gold Orchestration** — Executes all Gold transformation notebooks after the Silver layer is completed.
+
+This simplifies the final Databricks Job by using the orchestration notebooks as higher-level pipeline tasks instead of adding every individual Silver and Gold notebook as a separate task.
+
+### Orchestration Flow
+
+```text
+                    BRONZE
+                       │
+                       ▼
+             ┌──────────────────┐
+             │ Silver           │
+             │ Orchestration    │
+             └────────┬─────────┘
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+      Silver A    Silver B    Silver C
+          │           │           │
+          └───────────┼───────────┘
+                      │
+                      ▼
+             ┌──────────────────┐
+             │ Gold             │
+             │ Orchestration    │
+             └────────┬─────────┘
+                      │
+          ┌───────────┼───────────┐
+          ▼           ▼           ▼
+        Gold A      Gold B      Gold C
