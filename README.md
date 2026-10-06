@@ -1,36 +1,44 @@
 # Databricks CRM & ERP Data Engineering Pipeline
 
-An end-to-end data engineering pipeline built using **Azure Databricks**, **PySpark**, **Spark SQL**, and **Delta Lake** to transform raw CRM and ERP data into clean, business-ready datasets.
+An end-to-end data engineering project built using **Databricks, PySpark, Spark SQL, Delta Lake, and Unity Catalog**.
 
-The project follows the **Medallion Architecture (Bronze → Silver → Gold)** and uses **Unity Catalog** for data organization and governance.
+The project implements a **Bronze → Silver → Gold Medallion Architecture** to ingest, transform, integrate, and prepare CRM and ERP data for analytics and reporting.
 
 ---
 
-## 🏗️ Architecture
+## Project Overview
+
+This project demonstrates the development of a complete data engineering pipeline in Databricks, starting from raw CRM and ERP source data and progressing through multiple transformation layers to produce business-ready datasets.
+
+The pipeline includes data ingestion, cleaning, standardization, transformation, integration, and workflow orchestration using **Databricks Jobs**.
+
+---
+
+## Architecture
 
 ```text
-                CRM / ERP Source Data
-                         │
-                         ▼
-                  ┌─────────────┐
-                  │   BRONZE    │
-                  │ Raw Data    │
-                  └──────┬──────┘
-                         │
-                         ▼
-                  ┌─────────────┐
-                  │   SILVER    │
-                  │ Cleaned &   │
-                  │ Standardized│
-                  └──────┬──────┘
-                         │
-                         ▼
-                  ┌─────────────┐
-                  │    GOLD     │
-                  │ Business-   │
-                  │ Ready Data  │
-                  └─────────────┘
-                         │
-              ┌──────────┴──────────┐
-              ▼                     ▼
-          Analytics             Reporting
+              CRM / ERP Source Data
+                       │
+                       ▼
+                ┌────────────┐
+                │   BRONZE   │
+                │ Raw Data   │
+                └─────┬──────┘
+                      │
+                      ▼
+                ┌────────────┐
+                │   SILVER   │
+                │ Cleaned &  │
+                │ Standardized
+                └─────┬──────┘
+                      │
+                      ▼
+                ┌────────────┐
+                │    GOLD    │
+                │ Business-  │
+                │ Ready Data │
+                └─────┬──────┘
+                      │
+                ┌─────┴─────┐
+                ▼           ▼
+            Analytics    Reporting
